@@ -29,12 +29,26 @@ db.once("open", () => {
 })
 
 
+app.use(express.static(__dirname + '/public'));
+
+
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
 app.get('/', (req, res) => {
     res.render('home')
 })
 
+app.get('/challenges', (req, res) => {
+    res.render('challenges')
+})
+
+app.get('/footprint', (req,res) => {
+    res.render('carbon')
+})
+
+app.get('/setting', (req,res) => {
+    res.render('setting')
+})
 
 /* ============================================= connection to the port/localhost ============================================= */
 const port = 3000
