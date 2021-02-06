@@ -1,3 +1,42 @@
-<%- include('./partials/main') %>
+<!DOCTYPE html>
+<style>
+    #nav-footprint{
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
 
-<h1>Carbon footprint </h1>
+
+
+<%- include('./partials/header') %>
+<form>
+    <label for ="distance">Distance (km):</label>
+    <input type="text" id="distance" name="distance"> <br>
+    <label for="company">Car brand: </label>
+    <select id="company" name="company">
+        <option value="acura">Acura</option>
+        <option value="audi">Audi</option>
+        <option value="bmw">BMW</option>
+        <option value="chevrolet">Chevrolet</option>
+        <option value="ford">Ford</option>
+        <option value="honda">Honda</option>
+        <option value="infiniti">Infiniti</option>
+        <option value="jeep">Jeep</option>
+        <option value="kia">Kia</option>
+        <option value="nissan">Nissan</option>
+        <option value="subary">Subaru</option>
+        <option value="tesla">Tesla</option>
+        <option value="toyota">Toyota</option>
+        <option value="volkswagen">volkswagen</option>
+    </select>
+    <button type="button" onclick="mySelectFunction()">Select content</button><br>
+     <label for="type">Car type: </label>
+    <select id="type" name="type">
+    </select>
+</form>
+
+<script>
+    function mySelectFunction() {
+        alert(document.getElementById("company").value);
+    }
+</script>
