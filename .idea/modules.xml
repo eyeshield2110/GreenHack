@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Hack.iml" filepath="$PROJECT_DIR$/.idea/Hack.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://$PROJECT_DIR$/../PycharmProjects/hackathon/.idea/hackathon.iml" filepath="$PROJECT_DIR$/../PycharmProjects/hackathon/.idea/hackathon.iml" />
+>>>>>>> origin/main
     </modules>
   </component>
 </project>
