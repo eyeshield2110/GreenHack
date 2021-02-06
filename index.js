@@ -32,7 +32,7 @@ db.once("open", () => {
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
 app.get('/', (req, res) => {
-    res.send("Hackathon Homepage")
+    res.render('home')
 })
 
 
