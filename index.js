@@ -50,6 +50,8 @@ app.get('/setting', (req,res) => {
     res.render('setting')
 })
 
+
+
 /* ============================================= connection to the port/localhost ============================================= */
 const port = 3000
 app.listen(port, () => {
