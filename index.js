@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const Challenge = require('./models/challengeSchema')
 
 /* ----------------------- configuration of dir, templates, EJS, encoding & route overriding ------------------------- */
 app.set('view engine', 'ejs')
@@ -38,8 +39,13 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/challenges', (req, res) => {
-    res.render('challenges')
+app.get('/challenges', async (req, res) => {
+    const numOfChallenges = await Challenge.countDocuments({})
+    const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
+    const challenges = await Challenge.find({})
+    const { challenge, category } = challenges[randomIndex]
+
+    res.render('challenges', {  challenge })
 })
 
 app.get('/footprint', (req,res) => {
