@@ -24,7 +24,7 @@ const userSchema = new Schema({
     },
     day: {
         type: Date,
-        default: undefined // ? or Date.now() ?
+        default: Date.now()
     },
     points: {
         type: Number,

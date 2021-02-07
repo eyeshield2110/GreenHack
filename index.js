@@ -61,20 +61,30 @@ app.get('/', (req, res) => {
 })
 
 app.get('/challenges', async (req, res) => {
-/*    const numOfChallenges = await Challenge.countDocuments({})
+    const numOfChallenges = await Challenge.countDocuments({})
     const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
     const challenges = await Challenge.find({})
-    const { challenge, category } = challenges[randomIndex]*/
-    randomChallenge(({challenge, category}) => {
-        res.render('challenges', {  challenge })
-    })
+    const { challenge, category } = challenges[randomIndex]
+    res.render('challenges', {  challenge })
 })
+
+// Testing 'Daily Challenge'
+app.get('/challenges2', async (req, res) => {
+    const numOfChallenges = await Challenge.countDocuments({})
+    const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
+    const challenges = await Challenge.find({})
+    const { challenge, category } = challenges[randomIndex]
+    res.render('challenges', {  challenge })
+})
+
 
 app.get('/footprint', (req,res) => {
     res.render('carbon')
 })
 
-app.get('/profile', (req,res) => {
+app.get('/profile', async (req,res) => {
+    // return the top 5 users in decreasing points order
+    const top5 = await User.find
     res.render('profile', {user, me})
 })
 
@@ -94,9 +104,16 @@ app.post('/register', async (req, res) => {
     }
     // hash password before storing
     const hash = await bcrypt.hash(password, 12)
-    // create 2 challenges for user
-
     const newUser = new User({username, password:hash})
+
+    const numOfChallenges = await Challenge.countDocuments({})
+    for (let i = 0; i < 2; i++) {
+        const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
+        const challenges = await Challenge.find({})
+        const challengeDoc = challenges[randomIndex]
+        newUser.challenges.push(challengeDoc)
+    }
+
     await newUser.save()
     res.redirect('/')
 })
@@ -143,6 +160,9 @@ app.get('/secret', (req, res) => {
     else
         res.redirect('/')
 
+})
+app.get('/level/:name', async (req, res) => {
+    await User.find({name: req.params.name})
 })
 
 /* ============================================= connection to the port/localhost ============================================= */
