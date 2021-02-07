@@ -54,6 +54,10 @@ const user = [{username: "Jana", points:"3"}, {username: "Noah", points:"8"},{us
 
 const me = [{username: "Jana", level: "2", points: "10"}]
 
+const fake =[{phrase: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat et libero in bibendum."},
+    {phrase: "Sed rhoncus risus iaculis, aliquam nulla ac, egestas nunc. Nunc rutrum in quam at blandit"},
+    {phrase: "Nullam facilisis, turpis non dapibus pharetra, purus elit porttitor odio"}]
+
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
 app.get('/', (req, res) => {
@@ -66,7 +70,7 @@ app.get('/challenges', async (req, res) => {
     const challenges = await Challenge.find({})
     const { challenge, category } = challenges[randomIndex]*/
     randomChallenge(({challenge, category}) => {
-        res.render('challenges', {  challenge })
+        res.render('challenges', {  challenge, fake })
     })
 })
 

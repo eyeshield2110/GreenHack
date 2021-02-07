@@ -1,8 +1,21 @@
-<h1>Login</h1>
-<!-- flash message when login wrong (username/psw wrong) -->
-<%= msg %>
-<form action="/login" method="post">
-    <input placeholder="Enter username" name="username" required>
-    <input placeholder="Enter password" name="password" required>
-    <button>Login</button>
-</form>
+
+<main>
+    <%- include('./partials/header') %>
+    <div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+        <h1>Login</h1>
+        <!-- flash message when login wrong (username/psw wrong) -->
+        <%= msg %>
+            <form action="/login" method="post">
+            <input placeholder="Enter username" name="username" required>
+            <input placeholder="Enter password" name="password" required>
+            <button class="btn btn-success">Login</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+</main>
+<%- include('./partials/footer') %>
