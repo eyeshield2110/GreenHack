@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt')
 const session = require('express-session') // session
 const flash = require('connect-flash')
 const randomChallenge = require('./.utils/randomChallenge') // function that select random challenge
+const leadingUsers = require('./.utils/leading')
+const pointSystem = require('./.utils/pointSystem')
 
 /* ----------------------- configuration of dir, templates, EJS, encoding & route overriding ------------------------- */
 app.set('view engine', 'ejs')
@@ -54,6 +56,10 @@ const user = [{username: "Jana", points:"3"}, {username: "Noah", points:"8"},{us
 
 const me = [{username: "Jana", level: "2", points: "10"}]
 
+const fake =[{phrase: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat et libero in bibendum."},
+    {phrase: "Sed rhoncus risus iaculis, aliquam nulla ac, egestas nunc. Nunc rutrum in quam at blandit"},
+    {phrase: "Nullam facilisis, turpis non dapibus pharetra, purus elit porttitor odio"}]
+
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
 app.get('/', (req, res) => {
@@ -65,8 +71,14 @@ app.get('/challenges', async (req, res) => {
     const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
     const challenges = await Challenge.find({})
     const { challenge, category } = challenges[randomIndex]*/
+    let arrChallenges;
+    if (req.session.user_id) {
+        const user = await User.findById(req.session.user_id).populate("challenges")
+        arrChallenges = user.challenges
+    }
+    console.log(user)
     randomChallenge(({challenge, category}) => {
-        res.render('challenges', {  challenge })
+        res.render('challenges', {  challenge, arrChallenges })
     })
 })
 
@@ -74,8 +86,44 @@ app.get('/footprint', (req,res) => {
     res.render('carbon')
 })
 
-app.get('/profile', (req,res) => {
-    res.render('profile', {user, me})
+app.get('/profile', async (req,res) => {
+    if (!req.session.user_id)
+        return res.redirect('/login')
+    const leadingUsers = await User.find({}).sort({level: 'desc'}).limit(5)
+    // console.log(leadingUsers)
+    const { user_id } = req.session
+    let currentUser = await User.findById(user_id)
+    console.log(currentUser)
+    let goal = -1
+    if (currentUser)
+        goal = pointSystem(parseInt(currentUser.level))
+    else
+        return res.send('Error 404: User profile not found')
+    res.render('profile', {user:leadingUsers, goal, me:currentUser})
+})
+/* Changing the challenges settings for user */
+app.post('/profile', async (req, res) => {
+    let allChallenges = []
+
+    console.log("\n REQ.BODY: \n", req.body)
+    const category = req.body.options
+    const numOfChallenges = req.body.a
+    if (category !== "default" )
+        allChallenges = await Challenge.find({category})
+    const newChallenges = []
+    for (let i = 0; i < numOfChallenges; i++) {
+        const rand = Math.floor((Math.random() * allChallenges.length))
+        console.log('random num ', i, ': ', rand)
+        newChallenges.push(allChallenges[rand])
+    }
+    //console.log(newChallenges)
+
+    // update challenges for user, and number of challenges
+    const usr = await User.findById(req.session.user_id)
+    usr.challenges = newChallenges
+    usr.numOfChallenge = numOfChallenges
+    await usr.save()
+    res.send('posted to profile!')
 })
 
 
@@ -94,9 +142,16 @@ app.post('/register', async (req, res) => {
     }
     // hash password before storing
     const hash = await bcrypt.hash(password, 12)
-    // create 2 challenges for user
-
     const newUser = new User({username, password:hash})
+    // create 2 challenges for user
+    const numOfChallenges = await Challenge.countDocuments({})
+    const challenges = await Challenge.find({})
+    for (let i=0; i<2; i++){
+        const randomIndex = Math.floor((Math.random() * numOfChallenges))
+        const newCh = challenges[randomIndex]
+        newUser.challenges.push(newCh)
+    }
+
     await newUser.save()
     res.redirect('/')
 })
@@ -143,6 +198,17 @@ app.get('/secret', (req, res) => {
     else
         res.redirect('/')
 
+})
+
+app.get('/level/:username/:incr', async (req, res) => {
+    const { username, incr } = req.params
+    const user = await User.findOneAndUpdate({username}, {level: parseInt(incr)}, {new: true})
+    res.send(JSON.stringify(user))
+})
+app.get('/points/:username/:incr', async (req, res) => {
+    const { username, incr } = req.params
+    const user = await User.findOneAndUpdate({username}, {points: parseInt(incr)}, {new: true})
+    res.send(JSON.stringify(user))
 })
 
 /* ============================================= connection to the port/localhost ============================================= */

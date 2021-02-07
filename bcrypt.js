@@ -1,5 +1,5 @@
+/* Testing bcrypt */
 const bcrypt = require('bcrypt')
-
 
 // Encrypting a password
 const hashPassword = async (pw) => {

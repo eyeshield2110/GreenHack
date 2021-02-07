@@ -16,9 +16,10 @@ db.once("open", () => {
     console.log("Database connected");
 })
 
+/* Testing how to sort 5 leading users for the leader board */
 const a = async () => {
-    const arr = await User.find({}).sort({'day': 'desc'}).limit(5)
+    const arr = await User.find({}).sort({level: 'desc'}).limit(5)
     console.log(arr)
 }
 
-a()
+module.exports = a

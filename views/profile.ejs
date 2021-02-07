@@ -17,7 +17,7 @@
         <table class="table table-borderless align-middle">
             <tr>
             <td width="25%">
-                <h1>User name here</h1>
+                <h1><%= me.username %></h1>
             </td>
             <td width="25%" align="right">
             <button class="btn btn-outline-success" disabled>2</button>
@@ -25,7 +25,7 @@
             <td width="50%">
 
             <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-success" role="progressbar" style="width:<%= me.points*100/goal %>%" aria-valuenow="<%= me.points/goal %>" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             </td>
             </tr>
@@ -41,25 +41,25 @@
 
 
 
-        <form oninput="x.value=parseInt(a.value)">
+        <form action="/profile" method="post" oninput="x.value=parseInt(a.value)">
             <label class="form-label" >Challenges per day: </label>
             <input type="range" style="width: 120px; vertical-align: middle;" class="form-range" id="a" name="a" value="0" min="0" max="3"> =
             <output name="x" for="a"></output>
             <br><br>
 
-        <input type="radio" class="btn-check" name="options" id="option" autocomplete="off" checked>
+        <input value="default" type="radio" class="btn-check" name="options" id="option" autocomplete="off" checked>
         <label class="btn btn-success" for="option">Default</label>
 
-        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+        <input value="recycling and reduce waste" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
         <label class="btn btn-success" for="option1">Recycling/Reducing waste</label>
 
-        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+        <input value="transport" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
         <label class="btn btn-success" for="option2">Transport</label>
 
-        <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+        <input value="local products" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
         <label class="btn btn-success" for="option3">Local Products</label>
 
-        <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+        <input value="reducing water and electricity consumption" type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
         <label class="btn btn-success" for="option4">Reducing electricity/water consumption</label>
             <br><br>
 
