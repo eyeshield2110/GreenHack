@@ -15,13 +15,14 @@
     <div class="col-sm-12">
     <form>
         <div class="mb-3">
-        <label for="distance" class="form-label">Distance (km): </label>
+            <h1>Car</h1>
+        </div>
+        <div class="mb-3">
+        <label for="distance" class="form-label">Travel distance (km): </label>
         <input type="number" id="distance" name="distance" class="form-control" >
         </div>
-<!--    <label for ="distance">Distance (km):</label>-->
-<!--    <input type="number" id="distance" name="distance"> <br>-->
         <div class="mb-3">
-            <label for="car" class="form-label">Car : </label>
+            <label for="car" class="form-label">Name of car: </label>
     <select id="car" name="car" class="form-select">
         <option value="10.1142">Acura CDX</option>
         <option value="11.0">Acura NSX</option>
@@ -52,14 +53,97 @@
     </select>
         </div>
 
-    <button type="button" class="btn btn-success" id ="button"onclick="mySelectFunction()">Calculate</button><br>
+    <button type="button" class="btn btn-success" id ="button"onclick="carTotal()">Calculate</button><br>
     </select>
 </form>
-
-    <p id="result" class="m-3 text-center h2"></p>
     </div>
   </div>
 </div>
+
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p id="result" class="m-3 text-center h4"></p>
+            <p id="totalResult" class="m-3 text-center h4"></p>
+        </div>
+    </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <br><br>
+                <form>
+                    <div class="mb-3">
+                        <h1>Bus</h1>
+                    </div>
+                    <div class="mb-3">
+                        <label for="distance2" class="form-label">Travel distance (km): </label>
+                        <input type="number" id="distance2" name="distance2" class="form-control" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="bus" class="form-label">Type of Bus : </label>
+                        <select id="bus" name="bus" class="form-select">
+                            <option value="26">Coach </option>
+                            <option value="32.6">Double-decker </option>
+                            <option value="47,51">Hybrid  </option>
+                            <option value="37">Low-floor </option>
+                            <option value="24">Minibus </option>
+                            <option value="30">School bus </option>
+
+                         </select>
+                    </div>
+                    <button type="button" class="btn btn-success" id ="button"onclick="busTotal()">Calculate</button><br>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p id="result2" class="m-3 text-center h4"></p>
+            <p id="totalResult2" class="m-3 text-center h4"></p>
+        </div>
+    </div>
+    </div>
+
+<div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <br><br>
+                <form>
+                    <div class="mb-3">
+                        <h1>Truck</h1>
+                    </div>
+                    <div class="mb-3">
+                        <label for="distance3" class="form-label">Travel distance (km): </label>
+                        <input type="number" id="distance3" name="distance3" class="form-control" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="truck" class="form-label">Type of Truck : </label>
+                        <select id="truck" name="truck" class="form-select">
+                            <option value="36">AMW TP Series </option>
+                            <option value="25">Astra HD9 </option>
+                            <option value="31">AMW TR Series </option>
+                            <option value="16.41">Avia D-Line </option>
+                            <option value="43">BharatBenz 914 </option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-success" id ="button"onclick="truckTotal()">Calculate</button><br>
+
+                </form>
+            </div>
+        </div>
+</div>
+    <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p id="result3" class="m-3 text-center h4"></p>
+            <p id="totalResult3" class="m-3 text-center h4"></p>
+        </div>
+    </div>
+    </div>
 
 </main>
 <%- include('./partials/footer') %>
@@ -67,15 +151,59 @@
 
 
 <script>
-    function mySelectFunction() {
+    function carTotal() {
         var input = document.getElementById("car");
+        var km = document.getElementById("distance");
         var inputVal = "";
+        var inputKm = "";
         if (input) {
             inputVal = input.value;
         }
+        if (km) {
+            inputKm = km.value;
+        }
         var co =(inputVal *2.33)/100;
-        co = co.toFixed(4)
-        document.getElementById("result").innerHTML = co +" g of CO2/km";
-        // alert(co + " g of CO2/km");
+        var total = co * inputKm;
+        total = total.toFixed(4);
+        co = co.toFixed(4);
+        document.getElementById("result").innerHTML = "CO2/km: " + co +" g";
+        document.getElementById("totalResult").innerHTML = "Total CO2: " +total + " g";
+    }
+
+    function busTotal(){
+        var input = document.getElementById("bus");
+        var km = document.getElementById("distance2");
+        var inputVal = "";
+        var inputKm = "";
+        if (input) {
+            inputVal = input.value;
+        }
+        if (km) {
+            inputKm = km.value;
+        }
+        var co =(inputVal *2.33)/100;
+        var total = co * inputKm;
+        total = total.toFixed(4);
+        co = co.toFixed(4);
+        document.getElementById("result2").innerHTML = "CO2/km: " +co +" g";
+        document.getElementById("totalResult2").innerHTML = "Total CO2: " +total + " g";
+    }
+    function truckTotal() {
+        var input = document.getElementById("truck");
+        var km = document.getElementById("distance3");
+        var inputVal = "";
+        var inputKm = "";
+        if (input) {
+            inputVal = input.value;
+        }
+        if (km) {
+            inputKm = km.value;
+        }
+        var co = (inputVal * 2.33) / 100;
+        var total = co * inputKm;
+        total = total.toFixed(4);
+        co = co.toFixed(4);
+        document.getElementById("result3").innerHTML = "CO2/km: " +co + " g";
+        document.getElementById("totalResult3").innerHTML = "Total CO2: " +total + " g";
     }
 </script>
