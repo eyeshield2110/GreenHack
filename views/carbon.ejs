@@ -11,32 +11,53 @@
 <%- include('./partials/header') %>
 <form>
     <label for ="distance">Distance (km):</label>
-    <input type="text" id="distance" name="distance"> <br>
-    <label for="company">Car brand: </label>
-    <select id="company" name="company">
-        <option value="acura">Acura</option>
-        <option value="audi">Audi</option>
-        <option value="bmw">BMW</option>
-        <option value="chevrolet">Chevrolet</option>
-        <option value="ford">Ford</option>
-        <option value="honda">Honda</option>
-        <option value="infiniti">Infiniti</option>
-        <option value="jeep">Jeep</option>
-        <option value="kia">Kia</option>
-        <option value="nissan">Nissan</option>
-        <option value="subary">Subaru</option>
-        <option value="tesla">Tesla</option>
-        <option value="toyota">Toyota</option>
-        <option value="volkswagen">volkswagen</option>
-    </select>
-    <button type="button" onclick="mySelectFunction()">Select content</button><br>
-     <label for="type">Car type: </label>
-    <select id="type" name="type">
+    <input type="number" id="distance" name="distance"> <br>
+
+    <label for="car">Car : </label>
+    <select id="car" name="car">
+        <option value="10.1142">Acura CDX</option>
+        <option value="11.0">Acura NSX</option>
+        <option value="10.5847">Audi A8</option>
+        <option value="8.6">Audi Q2</option>
+        <option value="9.15">BMW 3 series sedan</option>
+        <option value="8.93815">BMW X1</option>
+        <option value="11.2903">Chevrolet Blazer</option>
+        <option value="11.2903">Chevrolet Impala</option>
+        <option value="9.3">Ford Aspire</option>
+        <option value="8.4">Ford EcoSport</option>
+        <option value="7.76208">Honda CR-V</option>
+        <option value="7.4">Honda Civic</option>
+        <option value="9.87901">Infiniti Q50</option>
+        <option value="9.7">Infiniti QX50</option>
+        <option value="9.87901">Jeep Cherokee</option>
+        <option value="12.4664">Jeep Wrangler</option>
+        <option value="8.70294">Kia Optima</option>
+        <option value="8.93815">Kia Sorento</option>
+        <option value="7.762081">Nissan Altima</option>
+        <option value="7.2">Nissan Kicks</option>
+        <option value="10.1142">Subaru BRZ</option>
+        <option value="10">Subaru Ascent</option>
+        <option value="7.4">Toyota Corolla</option>
+        <option value="7.7">Toyota RAV4</option>
+        <option value="9.40858">Volkswagen Arteon</option>
+        <option value="12">Volkswagen Atlas</option>
+    </select><br>
+    <button type="button" id ="button"onclick="mySelectFunction()">calculate</button><br>
     </select>
 </form>
 
+    <p id="result"></p>
+
 <script>
     function mySelectFunction() {
-        alert(document.getElementById("company").value);
+        var input = document.getElementById("car");
+        var inputVal = "";
+        if (input) {
+            inputVal = input.value;
+        }
+        var co =(inputVal *2.33)/100;
+        co = co.toFixed(4)
+        document.getElementById("result").append(co +" g of CO2/km");
+        // alert(co + " g of CO2/km");
     }
 </script>
