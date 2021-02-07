@@ -92,7 +92,7 @@ app.get('/footprint', (req,res) => {
 app.get('/profile', async (req,res) => {
     if (!req.session.user_id)
         return res.redirect('/login')
-    const leadingUsers = await User.find({}).sort({level: 'desc'}).limit(5)
+    const leadingUsers = await User.find({}).sort({points: 'desc'}).limit(5)
     // console.log(leadingUsers)
     const { user_id } = req.session
     let currentUser = await User.findById(user_id)
@@ -166,12 +166,12 @@ app.post('/register', async (req, res) => {
         const newCh = challenges[randomIndex]
         newUser.challenges.push(newCh)
     }
-
+    req.flash('newRegister', 'Successful sign up!')
     await newUser.save()
-    res.redirect('/')
+    res.redirect('/login')
 })
 app.get('/login', (req, res) => {
-    res.render('login', {msg: req.flash('failedLogin')})
+    res.render('login', {msg: [req.flash('failedLogin'),req.flash('newRegister')]})
 })
 
 app.post('/login', async (req, res) => {
