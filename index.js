@@ -32,6 +32,11 @@ db.once("open", () => {
 
 app.use(express.static(__dirname + '/public'));
 
+/*---------------*/
+const user = [{username: "Jana", points:"3"}, {username: "Noah", points:"8"},{username: "Melissa", points:"64"},
+    {username: "Rowan", points:"46"}, {username: "Sam", points:"63"}]
+
+const me = [{username: "Jana", level: "2", points: "10"}]
 
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
@@ -52,8 +57,8 @@ app.get('/footprint', (req,res) => {
     res.render('carbon')
 })
 
-app.get('/setting', (req,res) => {
-    res.render('setting')
+app.get('/profile', (req,res) => {
+    res.render('profile', {user, me})
 })
 
 

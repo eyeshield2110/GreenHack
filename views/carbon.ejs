@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <style>
     #nav-footprint{
-        background-color: #4CAF50;
         color: white;
     }
 </style>
 
 
 
-<%- include('./partials/header') %>
-<form>
-    <label for ="distance">Distance (km):</label>
-    <input type="number" id="distance" name="distance"> <br>
 
-    <label for="car">Car : </label>
-    <select id="car" name="car">
+<main>
+    <%- include('./partials/header') %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+    <form>
+        <div class="mb-3">
+        <label for="distance" class="form-label">Distance (km): </label>
+        <input type="number" id="distance" name="distance" class="form-control" >
+        </div>
+<!--    <label for ="distance">Distance (km):</label>-->
+<!--    <input type="number" id="distance" name="distance"> <br>-->
+        <div class="mb-3">
+            <label for="car" class="form-label">Car : </label>
+    <select id="car" name="car" class="form-select">
         <option value="10.1142">Acura CDX</option>
         <option value="11.0">Acura NSX</option>
         <option value="10.5847">Audi A8</option>
@@ -41,12 +49,22 @@
         <option value="7.7">Toyota RAV4</option>
         <option value="9.40858">Volkswagen Arteon</option>
         <option value="12">Volkswagen Atlas</option>
-    </select><br>
-    <button type="button" id ="button"onclick="mySelectFunction()">calculate</button><br>
+    </select>
+        </div>
+
+    <button type="button" class="btn btn-success" id ="button"onclick="mySelectFunction()">Calculate</button><br>
     </select>
 </form>
 
-    <p id="result"></p>
+    <p id="result" class="m-3 text-center h2"></p>
+    </div>
+  </div>
+</div>
+
+</main>
+<%- include('./partials/footer') %>
+
+
 
 <script>
     function mySelectFunction() {
@@ -57,7 +75,7 @@
         }
         var co =(inputVal *2.33)/100;
         co = co.toFixed(4)
-        document.getElementById("result").append(co +" g of CO2/km");
+        document.getElementById("result").innerHTML = co +" g of CO2/km";
         // alert(co + " g of CO2/km");
     }
 </script>

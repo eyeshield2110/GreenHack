@@ -1,0 +1,114 @@
+<style>
+    #nav-profile{
+        color: white;
+    }
+</style>
+<link href="/style/main.css" rel="stylesheet" type="text/css">
+
+
+<main>
+    <%- include('./partials/header') %>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+        <script> document.write(new Date().toLocaleDateString()); </script>
+        </p>
+        <table class="table table-borderless align-middle">
+            <tr>
+            <td width="25%">
+                <h1>User name here</h1>
+            </td>
+            <td width="25%" align="right">
+            <button class="btn btn-outline-success" disabled>2</button>
+            </td>
+            <td width="50%">
+
+            <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            </td>
+            </tr>
+        </table>
+        </div>
+    </div>
+  <div class="row">
+    <div class="col-sm-8">
+
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat et libero in bibendum. Sed rhoncus risus iaculis, aliquam nulla ac, egestas nunc. Nunc rutrum in quam at blandit. Nullam facilisis, turpis non dapibus pharetra, purus elit porttitor odio, id tempus mi est nec nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce tincidunt magna dolor, vel ultrices nisl viverra sit amet. Sed eget felis faucibus, tincidunt enim quis, convallis massa. Ut est tellus, egestas id justo quis, pellentesque imperdiet metus. Cras sollicitudin, dolor dignissim ornare hendrerit, dolor mi accumsan nunc, ut congue augue tortor et odio. Ut molestie ex eu dapibus efficitur. Donec est sem, vehicula vel quam vehicula, varius rhoncus sem. Nunc interdum ac magna ac ultrices. Nullam et ultrices ligula.</p>
+
+
+
+
+        <form oninput="x.value=parseInt(a.value)">
+            <label class="form-label" >Challenges per day: </label>
+            <input type="range" style="width: 120px; vertical-align: middle;" class="form-range" id="a" name="a" value="0" min="0" max="3"> =
+            <output name="x" for="a"></output>
+            <br><br>
+
+        <input type="radio" class="btn-check" name="options" id="option" autocomplete="off" checked>
+        <label class="btn btn-success" for="option">Default</label>
+
+        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+        <label class="btn btn-success" for="option1">Recycling/Reducing waste</label>
+
+        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+        <label class="btn btn-success" for="option2">Transport</label>
+
+        <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+        <label class="btn btn-success" for="option3">Local Products</label>
+
+        <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+        <label class="btn btn-success" for="option4">Reducing electricity/water consumption</label>
+            <br><br>
+
+            <button type="button" id="button" onclick="sumit()" class="btn btn-primary" >Sumit </button>
+
+        </form>
+
+
+
+
+
+
+    </div>
+      <div class="col-sm-4">
+          <div class="card">
+              <div class="card-body">
+                  <h2 class="card-title">Leader board</h2>
+                <ol>
+                <% for(let i = 0; i < user.length; i++) {%>
+                <li> <%= user[i].username%> - <%= user[i].points%></li>
+                <%}%>
+                </ol>
+              </div>
+
+          </div>
+
+      </div>
+  </div>
+</div>
+
+
+
+</main>
+
+
+<%- include('./partials/footer') %>
+
+<script>
+    function sumit(){
+        alert(document.getElementById("a").value);
+    }
+    function personalize(){
+        if(document.getElementById("checkbox").checked){
+            document.getElementById("listTitle").append("List the challenges in this format: (need to put example)");
+            document.getElementById("list").disabled = false;
+        }
+        else{
+            document.getElementById("listTitle").remove()
+            document.getElementById("list").disabled = true;
+        }
+    }
+</script>

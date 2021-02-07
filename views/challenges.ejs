@@ -1,14 +1,22 @@
 <style>
     #nav-challenges{
-        background-color: #4CAF50;
         color: white;
     }
 </style>
 
-<%- include('./partials/header') %>
 
+<main>
+    <%- include('./partials/header') %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Your daily challenge is</h2>
+        <h3><%= challenge  %></h3>
+    </div>
+  </div>
+</div>
+</main>
 
-    <h2>Your daily challenge is</h2>
-    <h3><%= challenge  %></h3>
+<%- include('./partials/footer') %>
 
 
