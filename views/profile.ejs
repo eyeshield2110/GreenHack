@@ -20,7 +20,7 @@
                 <h1><%= me.username %></h1>
             </td>
             <td width="25%" align="right">
-            <button class="btn btn-outline-success" disabled>2</button>
+            <button class="btn btn-outline-success" disabled>Level <%= me.level %></button>
             </td>
             <td width="50%">
 
@@ -34,17 +34,21 @@
     </div>
   <div class="row">
     <div class="col-sm-8">
-        <button type="button" id="button0" onclick="submit()" class="btn btn-success" >log out </button>
+        <form action="/logout" method="post">
+            <button type="submit" id="button0" class="btn btn-success" >log out </button>
+        </form>
+
 
 
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat et libero in bibendum. Sed rhoncus risus iaculis, aliquam nulla ac, egestas nunc. Nunc rutrum in quam at blandit. Nullam facilisis, turpis non dapibus pharetra, purus elit porttitor odio, id tempus mi est nec nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce tincidunt magna dolor, vel ultrices nisl viverra sit amet. Sed eget felis faucibus, tincidunt enim quis, convallis massa. Ut est tellus, egestas id justo quis, pellentesque imperdiet metus. Cras sollicitudin, dolor dignissim ornare hendrerit, dolor mi accumsan nunc, ut congue augue tortor et odio. Ut molestie ex eu dapibus efficitur. Donec est sem, vehicula vel quam vehicula, varius rhoncus sem. Nunc interdum ac magna ac ultrices. Nullam et ultrices ligula.</p>
 
 
-
+        <!-- Flash messages -->
+        <h4><%= updateStatus %></h4>
 
         <form action="/profile" method="post" oninput="x.value=parseInt(a.value)">
             <label class="form-label" >Challenges per day: </label>
-            <input type="range" style="width: 120px; vertical-align: middle;" class="form-range" id="a" name="a" value="0" min="0" max="3"> =
+            <input type="range" style="width: 120px; vertical-align: middle;" class="form-range" id="a" name="a" value="1" min="1" max="3"> =
             <output name="x" for="a"></output>
             <br><br>
 
@@ -64,7 +68,7 @@
         <label class="btn btn-success" for="option4">Reducing electricity/water consumption</label>
             <br><br>
 
-            <button type="button" id="button" onclick="submit()" class="btn btn-primary" >Submit </button>
+            <button type="button" id="button" onclick="submit()" class="btn btn-primary" >Save challenges settings</button>
 
         </form>
 
@@ -80,7 +84,7 @@
                   <h2 class="card-title">Leader board</h2>
                 <ol>
                 <% for(let i = 0; i < user.length; i++) {%>
-                <li> <%= user[i].username%> - <%= user[i].points%></li>
+                <li> <b><%= user[i].username%></b>  - <%= user[i].points%> XP </li>
                 <%}%>
                 </ol>
               </div>

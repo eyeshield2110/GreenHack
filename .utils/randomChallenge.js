@@ -3,7 +3,7 @@ const Challenge = require('../models/challengeSchema')
 
 const randomChallenge = async(callback) => {
     const numOfChallenges = await Challenge.countDocuments({})
-    const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
+    const randomIndex = Math.floor((Math.random() * numOfChallenges))
     const challenges = await Challenge.find({})
     const challengeDoc = challenges[randomIndex]
     callback(challengeDoc)

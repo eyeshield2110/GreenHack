@@ -7,35 +7,45 @@
 
 <main>
     <%- include('./partials/header') %>
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h2>Your daily challenge is</h2>
-        <p class="p-4"><%= challenge  %></p>
+    <div class="container">
+        <div class="row">
+            <% if (!session) { %>
+            <div class="col-sm-12">
+                <h2>Random daily challenge :</h2>
+                <div style="padding: 10px; margin: 20px; color: darkslategray; font-family: 'American Typewriter' ">
+                    <h1 class="p-4"><%= challenge %></h1>
+                </div>
+                <br>
+            </div>
+            <% } else if (session) { %>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Your daily challenges</h2>
+                        <h3>Get them done to increase your points!</h3>
 
-        <br>
-      </div>
-      <div class="col-sm-12">
-          <div class="card">
-              <div class="card-body">
-                  <h2 class="card-title">To do</h2>
-                  <form>
-                    <ol>
-                    <%for (let i = 0; i < arrChallenges.length; i++){%>
-                            <li> <%= arrChallenges[i].phrase%> %>
-                                <p align="left"> <button class="btn btn-success">Success</button></p>
-                            </li>
-                    <% } %>
-                    </ol>
-                  </form>
-              </div>
-          </div>
+                            <ul>
+                                <% for (let i = 0; i < arrChallenges.length; i++){ %>
+                                    <li style="list-style-type:none;"> <%= arrChallenges[i].challenge %>
+                                        %>
+                                        <p align="left">
+                                            <form action="/challenges" method="post">
+                                            <button name="success" value="<%= arrChallenges[i]._id %>" class="btn btn-success">Success</button>
+                                            </form>
+                                        </p>
+                                    </li>
+                                <% } %>
+                            </ul>
 
-      </div>
-  </div>
+                    </div>
+                </div>
+
+            </div>
+            <% } %>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
+    </div>
 
 
 </main>

@@ -10,7 +10,7 @@ const session = require('express-session') // session
 const flash = require('connect-flash')
 const randomChallenge = require('./.utils/randomChallenge') // function that select random challenge
 const leadingUsers = require('./.utils/leading')
-const pointSystem = require('./.utils/pointSystem')
+const {pointSystem, newLevel} = require('./.utils/pointSystem')
 
 /* ----------------------- configuration of dir, templates, EJS, encoding & route overriding ------------------------- */
 app.set('view engine', 'ejs')
@@ -51,15 +51,6 @@ db.once("open", () => {
 app.use(express.static(__dirname + '/public'));
 /* ====================================================  Testing / TO DELETE ==================================================== */
 
-const user = [{username: "Jana", points:"3"}, {username: "Noah", points:"8"},{username: "Melissa", points:"64"},
-    {username: "Rowan", points:"46"}, {username: "Sam", points:"63"}]
-
-const me = [{username: "Jana", level: "2", points: "10"}]
-
-const fake =[{phrase: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat et libero in bibendum."},
-    {phrase: "Sed rhoncus risus iaculis, aliquam nulla ac, egestas nunc. Nunc rutrum in quam at blandit"},
-    {phrase: "Nullam facilisis, turpis non dapibus pharetra, purus elit porttitor odio"}]
-
 /* ==================================================== RESTFUL ROUTES & MONGOOSE CRUD  ====================================================  */
 
 app.get('/', (req, res) => {
@@ -67,19 +58,31 @@ app.get('/', (req, res) => {
 })
 
 app.get('/challenges', async (req, res) => {
-/*    const numOfChallenges = await Challenge.countDocuments({})
-    const randomIndex = Math.floor((Math.random() * numOfChallenges) + 1)
-    const challenges = await Challenge.find({})
-    const { challenge, category } = challenges[randomIndex]*/
+    /* if not logged in, show a random challenge at each page request */
+    if (!req.session.user_id) {
+        await randomChallenge(({challenge, category}) => {
+            return res.render('challenges', {challenge, session: false})
+        })
+    }
+    /* if logged in, show challenges of the day */
     let arrChallenges;
     if (req.session.user_id) {
-        const user = await User.findById(req.session.user_id).populate("challenges")
-        arrChallenges = user.challenges
+        const currentUser = await User.findById(req.session.user_id).populate("challenges")
+        arrChallenges = currentUser.challenges
+        // console.log(currentUser)
+        res.render('challenges', {  arrChallenges, session: true})
     }
-    console.log(user)
-    randomChallenge(({challenge, category}) => {
-        res.render('challenges', {  challenge, arrChallenges })
-    })
+})
+app.post('/challenges', async (req, res) => {
+    const { success } = req.body
+    console.log('task done id:', success)
+    const currentUser = await User.findByIdAndUpdate(req.session.user_id, {  $pull: {challenges: success} })/* delete reference to comment */
+    currentUser.points += 1;
+    // update level is necessary
+    let lvl = newLevel(currentUser.points)
+    currentUser.level = lvl
+    await currentUser.save()
+    res.redirect('/challenges')
 })
 
 app.get('/footprint', (req,res) => {
@@ -93,13 +96,17 @@ app.get('/profile', async (req,res) => {
     // console.log(leadingUsers)
     const { user_id } = req.session
     let currentUser = await User.findById(user_id)
-    console.log(currentUser)
+    // update level is necessary
+    let lvl = newLevel(currentUser.points)
+    currentUser.level = lvl
+    await currentUser.save()
+    // console.log(currentUser)
     let goal = -1
     if (currentUser)
         goal = pointSystem(parseInt(currentUser.level))
     else
         return res.send('Error 404: User profile not found')
-    res.render('profile', {user:leadingUsers, goal, me:currentUser})
+    res.render('profile', {user:leadingUsers, goal, me:currentUser, updateStatus: req.flash('savedSetting')})
 })
 /* Changing the challenges settings for user */
 app.post('/profile', async (req, res) => {
@@ -107,9 +114,16 @@ app.post('/profile', async (req, res) => {
 
     console.log("\n REQ.BODY: \n", req.body)
     const category = req.body.options
-    const numOfChallenges = req.body.a
+    let numOfChallenges = req.body.a
+    if (numOfChallenges === 0) {
+        numOfChallenges = 2
+        req.flash('defaultNumChallenge', 'The default number of challenges is 2')
+    }
     if (category !== "default" )
         allChallenges = await Challenge.find({category})
+    else {
+        allChallenges = await Challenge.find({})
+    }
     const newChallenges = []
     for (let i = 0; i < numOfChallenges; i++) {
         const rand = Math.floor((Math.random() * allChallenges.length))
@@ -123,7 +137,8 @@ app.post('/profile', async (req, res) => {
     usr.challenges = newChallenges
     usr.numOfChallenge = numOfChallenges
     await usr.save()
-    res.send('posted to profile!')
+    req.flash('savedSetting', 'Settings successfully saved')
+    res.redirect('/profile')
 })
 
 

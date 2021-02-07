@@ -14,5 +14,26 @@ function pointSystem(level)  {
         goal = 100
     return goal
 }
+function newLevel(points) {
+    let level = 0
+    if (points < 1)
+        level = 0
+    else if (points < 2)
+        level = 1
+    else if (points < 10)
+        level = 2
+    else if (points < 25)
+        level = 3
+    else if (points < 50)
+        level = 4
+    else if (points < 85)
+        level = 5
+    else if (points < 100)
+        level = 9
+    return level
+}
 
-module.exports = pointSystem
+module.exports = {
+    pointSystem,
+    newLevel
+}
