@@ -1,4 +1,6 @@
 # Green Hack
+## DevPost submission and presentation video 
+https://devpost.com/software/green-hack-x4pdf2
 ## Inspiration
 We wanted to do something that is fun to use, an educational mobile app with a gamified component like Duolingo while making the user be more green. We also wanted to inform the user of their car carbon footprint. So in the end, we just merged both idea and made Green Hack
 ## What it does
